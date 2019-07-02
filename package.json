@@ -10,11 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/mariobeka/jku-ssw-lecturequizz.git"
   },
-  "keywords": ["lecturequizz"],
+  "keywords": [
+    "lecturequizz"
+  ],
   "author": "Marindo Beka",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mariobeka/jku-ssw-lecturequizz/issues"
   },
-  "homepage": "https://github.com/mariobeka/jku-ssw-lecturequizz#readme"
+  "homepage": "https://github.com/mariobeka/jku-ssw-lecturequizz#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
 }
