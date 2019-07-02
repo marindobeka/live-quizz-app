@@ -1,0 +1,20 @@
+{
+  "name": "lecturequizz",
+  "version": "1.0.0",
+  "description": "This application will allow a professor to starts an interactive session with students by asking questions and visualizing the answers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariobeka/jku-ssw-lecturequizz.git"
+  },
+  "keywords": ["lecturequizz"],
+  "author": "Marindo Beka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mariobeka/jku-ssw-lecturequizz/issues"
+  },
+  "homepage": "https://github.com/mariobeka/jku-ssw-lecturequizz#readme"
+}
