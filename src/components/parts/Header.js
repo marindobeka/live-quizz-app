@@ -21,4 +21,12 @@ class Header extends React.Component {
   }
 }
 
+// Header.PropTypes = {
+//   presentation_title: React.PropTypes.String,
+// };
+
+Header.deafaultProps = {
+  status: 'disconnected',
+};
+
 export default Header;

@@ -1,20 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
+// import {Router, Route, Switch} from 'react-router-dom';
 // import io from 'socket.io-client';
 
-// import Header from './components/parts/JoinForm';
-import Lecturer from './components/Lecturer';
+// import APP from './components/APP';
+// import JoinForm from './components/parts/JoinForm';
 
 // export const socket = io();
 
-const routing = (
-  <Router>
-    <Switch>
-      <Route exact path="/" component={Lecturer} />
-      {/* <Route path="/speaker" component={Lecturer} /> */}
-    </Switch>
-  </Router>
-);
+// const routing = (
+//   <main>
+//     <Switch>
+//       <Route exact path='/' component={() => <Audience {...this.props} />} />
+//       <Route path='/speaker' component={() => <Speaker {...this.props} />} />
+//       <Route path='/board' component={() => <Board {...this.props} />} />
+//       <Route component={NotFound} />
+//     </Switch>
+//   </main>
+// );
 
-ReactDOM.render(routing, document.getElementById('react-app-root'));
+import App from './components/APP';
+
+ReactDOM.render(<App />, document.getElementById('react-app-root'));
+
+// ReactDOM.render(routing, document.getElementById('react-app-root'));

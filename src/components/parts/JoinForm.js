@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 /**
 * @author Marindo Beka
 */
@@ -15,7 +17,9 @@ class JoinForm extends React.Component {
               <h5 className="card-title">Create new session</h5>
               <p className="card-text">As a lecturer, you can create a new
                 presentation here. </p>
-              <a href="#" className="btn btn-primary">Create Session</a>
+              <Link to='/create_session'>
+                <button className="btn btn-primary">Create Session</button>
+              </Link>
             </div>
           </div>
         </div>
