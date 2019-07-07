@@ -29,6 +29,9 @@ io.sockets.on('connection', function(socket) {
     console.log(speaker);
     console.log(rooms);
   });
+  socket.on('joinStudent', function(payload) {
+    console.log('join student not yet implemented');
+  });
   socket.on('validateSession', function(payload, callback) {
     console.log(payload);
     const isRoomNameAvailable = rooms.find((o) => o.name === payload.name);
@@ -46,6 +49,21 @@ io.sockets.on('connection', function(socket) {
       callback({
         code: 'ROOMERROR',
         msg: `Room name is allready used. Please use another one.`,
+      });
+    }
+  });
+  socket.on('validateSessionId', function(payload, callback) {
+    console.log(payload);
+    const room = rooms.find((o) => o.code === payload.id);
+    console.log(room);
+    if (room != undefined) {
+      callback({
+        code: 'OK',
+      });
+    } else {
+      callback({
+        code: 'SESSIONCODEERROR',
+        msg: `Session ID is wrong!`,
       });
     }
   });

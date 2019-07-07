@@ -48,6 +48,9 @@ class Lecturer extends React.Component {
             </div>
           </Display>
         </Display>
+        <Display if={this.props.status == 'disconnected'}>
+          <h2>Server stopped working. Will back soon...</h2>
+        </Display>
       </div>
     );
   }

@@ -23,7 +23,7 @@ class AskQuestion extends React.Component {
     console.log('handle uploading-', this.state.htmlFileData);
     console.log('handle uploading-', this.state.file);
     this.props.emit('askquestion', this.state.htmlFileData);
-    window.location = '/#/speaker';
+    window.location = '/#/';
   }
 
   /**

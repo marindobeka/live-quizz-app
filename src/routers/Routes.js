@@ -6,6 +6,7 @@ import JoinForm from '../components/parts/JoinForm';
 import Lecturer from '../components/Lecturer';
 import CreateSession from '../components/parts/CreateSession';
 import AskQuestion from '../components/AskQuestion';
+import Student from '../components/Students';
 
 
 /**
@@ -28,6 +29,7 @@ class Routes extends React.Component {
           <Route exact path='/' component={() => <JoinForm {...this.props} />}/>
           <Route path='/create_session' component={() => <CreateSession {...this.props}/>}/>
           <Route path='/lecturer/:id' component={() => <Lecturer {...this.props} />}/>
+          <Route path='/student' component={() => <Student {...this.props} />}/>
           <Route path='/postQuestion' component={() => <AskQuestion {...this.props} />}/>
           {/* <Route component={NotFound} /> */}
         </Switch>

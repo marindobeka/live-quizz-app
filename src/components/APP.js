@@ -48,6 +48,7 @@ class APP extends React.Component {
       console.log(sessionStorage.Memeber);
       console.log(this.props);
     });
+    socket.on('disconnect', () => this.setState({status: 'disconnected'}));
   }
 
   /**
