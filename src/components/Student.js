@@ -3,7 +3,7 @@ import React from 'react';
 
 import Display from './parts/Display';
 import JoinForm from './parts/JoinForm';
-// import Question from './partials/Question';
+import Question from './parts/Question';
 
 /**
  * @author Marindo Beka
@@ -24,7 +24,7 @@ class Student extends React.Component {
             </Display>
             <Display if={this.props.questions.length>0}>
               <Display if={this.props.answered == 'no'}>
-                {/* <Question questions={this.props.questions} emit={this.props.emit} /> */}
+                <Question questions={this.props.questions} emit={this.props.emit} />
               </Display>
               <Display if={this.props.answered == 'yes'}>
                 <p>Thank you for your answer.</p>
