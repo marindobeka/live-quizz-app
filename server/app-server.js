@@ -1,11 +1,14 @@
+/* eslint-disable max-len */
 const express = require('express');
 const config = require('../config.js');
 const socket = require('socket.io');
 const app = express();
 const secureCode = 1234;
 
-const speaker = {};
+// const speaker = {};
 const rooms = [];
+// const audiences = [];
+const students = new Map();
 app.use(express.static('./dist'));
 app.use(express.static('public'));
 
@@ -19,21 +22,48 @@ const io = socket.listen(server);
 
 io.sockets.on('connection', function(socket) {
   socket.on('join', function(payload) {
-    console.log(payload);
-    speaker.id = socket.id,
-    speaker.name = payload.name,
-    speaker.type = 'speaker',
-    speaker.code = payload.code;
+    // console.log(payload);
+    const speaker = {
+      id: socket.id,
+      name: payload.name,
+      type: 'speaker',
+      code: generate(4),
+    };
     socket.emit('joined', speaker);
-    rooms.push(speaker);
-    console.log(speaker);
+    console.log('rooms before');
     console.log(rooms);
+    rooms.push(speaker);
+    console.log('rooms after');
+    console.log(rooms);
+    console.log('speaker');
+    console.log(speaker);
   });
   socket.on('joinStudent', function(payload) {
-    console.log('join student not yet implemented');
+    console.log('Payload');
+    console.log(payload.id);
+    const fourdigitsrandom = Math.floor(1000 + Math.random() * 9000);
+    const student = {
+      id: socket.id,
+      name: fourdigitsrandom,
+      answer: null,
+      type: 'student',
+      sessionId: payload.id,
+    };
+    if (students.has(payload.id)) {
+      const values = students.get(payload.id);
+      values.push(student);
+      students.set(payload.id, values);
+    } else {
+      const newArrayObject = [];
+      newArrayObject.push(student);
+      students.set(payload.id, newArrayObject);
+    }
+    console.log(students);
+    socket.emit('joined', student);
+    socket.join(payload.id);
+    // io.to(speaker.code).emit('updateAudience', students.get(payload.id));
   });
   socket.on('validateSession', function(payload, callback) {
-    console.log(payload);
     const isRoomNameAvailable = rooms.find((o) => o.name === payload.name);
     console.log(isRoomNameAvailable);
     if (secureCode == payload.code && isRoomNameAvailable == undefined) {
@@ -68,3 +98,17 @@ io.sockets.on('connection', function(socket) {
     }
   });
 });
+
+/**
+ * Generate a unique code.
+ * @param {length} length The length
+ * @return {number} The unique number;
+ */
+function generate(length) {
+  const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let result='';
+  for (let i = length; i > 0; --i) {
+    result += chars[Math.round(Math.random() * (chars.length - 1))];
+  };
+  return result;
+}

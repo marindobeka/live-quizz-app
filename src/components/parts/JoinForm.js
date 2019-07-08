@@ -2,6 +2,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import {withRouter} from 'react-router-dom';
 import {socket} from '../APP';
 
 
@@ -32,9 +33,8 @@ class JoinForm extends React.Component {
     socket.emit('validateSessionId', config, (res) => {
       console.log(res);
       if (res.code === 'OK') {
-        this.props.emit('joinStudent', {name: config.id});
-        // this.setState({roomName: config.name});
-        // this.props.history.push('/lecturer/'+config.name);
+        this.props.emit('joinStudent', {id: config.id});
+        this.props.history.push('/student');
       } else {
         this.setState({error: res.msg});
         console.log(res.msg);
@@ -89,4 +89,4 @@ class JoinForm extends React.Component {
   }
 }
 
-export default JoinForm;
+export default withRouter(JoinForm);

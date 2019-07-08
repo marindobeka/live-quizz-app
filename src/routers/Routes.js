@@ -6,7 +6,7 @@ import JoinForm from '../components/parts/JoinForm';
 import Lecturer from '../components/Lecturer';
 import CreateSession from '../components/parts/CreateSession';
 import AskQuestion from '../components/AskQuestion';
-import Student from '../components/Students';
+import Student from '../components/Student';
 
 
 /**

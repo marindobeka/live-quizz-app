@@ -17,14 +17,14 @@ class Student extends React.Component {
     return (
       <div>
         <Display if={this.props.status == 'connected'}>
-          <Display if={this.props.Memeber.name && this.props.Memeber.type == 'student'}>
+          <Display if={this.props.Member.name && this.props.Member.type == 'student'}>
             <Display if={!this.props.questions.length>0}>
               <h2>Welcome</h2>
               <p>Please wait! The questions will appear shortly...</p>
             </Display>
             <Display if={this.props.questions.length>0}>
               <Display if={this.props.answered == 'no'}>
-                <Question questions={this.props.questions} emit={this.props.emit} />
+                {/* <Question questions={this.props.questions} emit={this.props.emit} /> */}
               </Display>
               <Display if={this.props.answered == 'yes'}>
                 <p>Thank you for your answer.</p>
@@ -33,7 +33,7 @@ class Student extends React.Component {
             </Display>
           </Display>
 
-          <Display if={!this.props.Memeber.name }>
+          <Display if={!this.props.Member.name }>
             <JoinForm emit = {this.props.emit}/>
           </Display>
         </Display>
