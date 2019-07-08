@@ -52,6 +52,9 @@ class APP extends React.Component {
       this.setState({updateStudents: students});
       console.log(students);
     });
+    socket.on('askquestion', (questionsFromServer) => {
+      this.setState({questions: questionsFromServer, answered: 'no'});
+    });
     socket.on('disconnect', () => this.setState({status: 'disconnected'}));
   }
 

@@ -45,9 +45,9 @@ class Question extends React.Component {
             </div>
             <input className="btn btn-primary" type="submit" value="Submit answer"/>
           </AutoForm>
-          {this.state.submittedData && <pre>
+          {/* {this.state.submittedData && <pre>
             {JSON.stringify(this.state.submittedData, null, 2)}
-          </pre>}
+          </pre>} */}
         </Display>
       </div>
 

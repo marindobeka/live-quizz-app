@@ -7,6 +7,8 @@ const secureCode = 1234;
 
 // const speaker = {};
 const rooms = [];
+const questions = [];
+
 // const audiences = [];
 const students = new Map();
 app.use(express.static('./dist'));
@@ -97,6 +99,20 @@ io.sockets.on('connection', function(socket) {
         msg: `Session ID is wrong!`,
       });
     }
+  });
+  socket.on('askquestion', function(question) {
+    questions.push(question);
+    const obj = rooms.find((data) => data.id === socket.id);
+    const a = students.get(obj.code);
+    for (let i = 0; i < a.length; i++) {
+      a[i].answer = null;
+    }
+    students.set(obj.code, a);
+    io.to(obj.code).emit('updateAudience', a);
+    console.log('Socket ID askquestion:'+socket.id);
+    console.log(rooms);
+    console.log(obj);
+    io.to(obj.code).emit('askquestion', questions);
   });
 });
 
