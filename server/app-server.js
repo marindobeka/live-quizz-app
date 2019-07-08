@@ -30,6 +30,7 @@ io.sockets.on('connection', function(socket) {
       code: generate(4),
     };
     socket.emit('joined', speaker);
+    socket.join(speaker.code);
     console.log('rooms before');
     console.log(rooms);
     rooms.push(speaker);
@@ -61,7 +62,7 @@ io.sockets.on('connection', function(socket) {
     console.log(students);
     socket.emit('joined', student);
     socket.join(payload.id);
-    // io.to(speaker.code).emit('updateAudience', students.get(payload.id));
+    io.to(payload.id).emit('updateStudents', students.get(payload.id));
   });
   socket.on('validateSession', function(payload, callback) {
     const isRoomNameAvailable = rooms.find((o) => o.name === payload.name);

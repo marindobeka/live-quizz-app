@@ -2,7 +2,7 @@ import React from 'react';
 /**
  * @author Marindo Beka
  */
-class Attendance extends React.Component {
+class Students extends React.Component {
   /**
    * Add member
    * @param {member} member The member.
@@ -24,7 +24,7 @@ class Attendance extends React.Component {
   render() {
     return (
       <div>
-        <h2>Attendance - {this.props.updateAudiences.length} members</h2>
+        <h2>Attendance - {this.props.updateStudents.length} members</h2>
         <table className = "table table-stripred">
           <thead>
             <tr>
@@ -33,7 +33,7 @@ class Attendance extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.updateAudiences.map(this.addMemberRow)}
+            {this.props.updateStudents.map(this.addMemberRow)}
           </tbody>
         </table>
       </div>
@@ -41,4 +41,4 @@ class Attendance extends React.Component {
   }
 }
 
-export default Attendance;
+export default Students;

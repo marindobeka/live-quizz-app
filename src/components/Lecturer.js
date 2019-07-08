@@ -2,6 +2,7 @@
 import React from 'react';
 import Display from './parts/Display';
 import {Link} from 'react-router-dom';
+import Students from './parts/Students';
 
 /**
 * @author Marindo Beka
@@ -46,6 +47,9 @@ class Lecturer extends React.Component {
                 <Link className='card-link' to="/questions">Get responses</Link>
               </div>
             </div>
+            <Display if={this.props.updateStudents.length>0}>
+              <Students updateStudents={this.props.updateStudents} />
+            </Display>
           </Display>
         </Display>
         <Display if={this.props.status == 'disconnected'}>

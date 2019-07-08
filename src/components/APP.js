@@ -20,7 +20,7 @@ class APP extends React.Component {
       presentation_title: '',
       Member: {},
       speaker: '',
-      updateAudiences: [],
+      updateStudents: [],
       questions: [],
       answered: 'no',
       selectedQuestion: 0,
@@ -47,6 +47,10 @@ class APP extends React.Component {
       console.log(this.state.Member);
       console.log(sessionStorage.Memeber);
       console.log(this.props);
+    });
+    socket.on('updateStudents', (students) => {
+      this.setState({updateStudents: students});
+      console.log(students);
     });
     socket.on('disconnect', () => this.setState({status: 'disconnected'}));
   }
