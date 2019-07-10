@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import Display from './parts/Display';
-import {createElements} from '../utils/Utils';
+import {createElements} from '../utils/DslUtil';
 
 /**
  * @author Marindo Beka
