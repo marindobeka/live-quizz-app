@@ -5,11 +5,8 @@ const socket = require('socket.io');
 const app = express();
 const secureCode = 1234;
 
-// const speaker = {};
 const rooms = [];
 const questions = [];
-
-// const audiences = [];
 const students = new Map();
 app.use(express.static('./dist'));
 app.use(express.static('public'));
@@ -62,9 +59,27 @@ io.sockets.on('connection', function(socket) {
       students.set(payload.id, newArrayObject);
     }
     console.log(students);
-    socket.emit('joined', student);
+    const availableQuestions = questions.filter((data) => data.code === payload.id);
+    if (!availableQuestions || !availableQuestions.length) {
+      console.log('joined');
+      socket.emit('joined', student);
+    } else {
+      console.log('joinedWithQuestionAvailable');
+      console.log(availableQuestions);
+      socket.emit('joinedWithQuestionAvailable', {s: student, q: availableQuestions});
+    }
     socket.join(payload.id);
     io.to(payload.id).emit('updateStudents', students.get(payload.id));
+  });
+  socket.on('reloadSpeaker', function(payLoad) {
+    console.log('RELOAD SPEAKER');
+    console.log(payLoad);
+    const foundIndex = rooms.findIndex((x) => x.code == payLoad.code);
+    if (foundIndex != -1) {
+      rooms[foundIndex].id = socket.id; // update the id of the old room.
+      console.log(foundIndex);
+      socket.emit('welcomeBack', rooms[foundIndex]);
+    }
   });
   socket.on('validateSession', function(payload, callback) {
     const isRoomNameAvailable = rooms.find((o) => o.name === payload.name);
@@ -100,19 +115,53 @@ io.sockets.on('connection', function(socket) {
       });
     }
   });
-  socket.on('askquestion', function(question) {
-    questions.push(question);
+  socket.on('askquestion', function(payload) {
     const obj = rooms.find((data) => data.id === socket.id);
-    const a = students.get(obj.code);
-    for (let i = 0; i < a.length; i++) {
-      a[i].answer = null;
+    const q = {
+      code: obj.code,
+      question: payload,
+    };
+    questions.push(q);
+    if (students.has(obj.code)) {
+      const a = students.get(obj.code);
+      for (let i = 0; i < a.length; i++) {
+        a[i].answer = null;
+      }
+      students.set(obj.code, a);
+      io.to(obj.code).emit('updateStudents', a);
     }
-    students.set(obj.code, a);
-    io.to(obj.code).emit('updateAudience', a);
     console.log('Socket ID askquestion:'+socket.id);
     console.log(rooms);
     console.log(obj);
     io.to(obj.code).emit('askquestion', questions);
+  });
+  socket.on('sendAnswer', function(payLoad, memeber) {
+    console.log(payLoad);
+    console.log(memeber);
+    const values = students.get(memeber.sessionId);
+    const foundIndex = values.findIndex((x) => x.id == socket.id);
+    values[foundIndex] = memeber;
+    // values[foundIndex].answer = memeber;
+    // const member = _.findWhere(values, {id: this.id});
+    // values.splice(values.indexOf(member), 1, memeber);
+    students.set(memeber.sessionId, values);
+    io.to(memeber.sessionId).emit('updateStudents', values);
+    // _.set(_.find(values, {id: this.id}), 'answer', memeber.answer);
+    // let member = _.findWhere(audiences, {id: this.id});
+
+    // audiences.splice(audiences.indexOf(member), 1, memeber);
+    // _.set(_.find(audiences, {id: this.id}), 'answer', memeber.answer);
+    // var member1 = _.findWhere(audiences, {id : this.id});
+    // console.log('server member after:' + member1.id);
+    // console.log('server member after:' + member1.answer);
+
+    // var json = JSON.parse(payLoad.answer);
+    // console.log('answer: ' + Object.values(json));
+    // const obj = rooms.find((data) => data.code === member.room);
+    // io.to(speaker.code).emit('updateAudience', audiences);
+    // io.sockets.emit('updateAudience', audiences);
+    // console.log('server member:' + member.id);
+    // io.sockets.emit('results', questions);
   });
 });
 

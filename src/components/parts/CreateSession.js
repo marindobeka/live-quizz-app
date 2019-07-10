@@ -37,7 +37,8 @@ class CreateSession extends React.Component {
       if (res.code === 'OK') {
         this.props.emit('join', {name: config.name, code: config.code});
         this.setState({roomName: config.name});
-        this.props.history.push('/lecturer/'+config.name);
+        // this.props.history.push('/lecturer/'+config.name);
+        this.props.history.push('/lecturer');
       } else {
         this.setState({error: res.msg});
         console.log(res.msg);

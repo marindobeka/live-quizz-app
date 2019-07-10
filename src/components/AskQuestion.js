@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import Display from './parts/Display';
+import {createElements} from '../utils/Utils';
 
 /**
  * @author Marindo Beka
@@ -11,7 +12,7 @@ class AskQuestion extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = {file: '', htmlFileData: ''};
+    this.state = {file: '', htmlFileData: null};
     this._handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -20,10 +21,10 @@ class AskQuestion extends React.Component {
    */
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handle uploading-', this.state.htmlFileData);
+    console.log('handle uploading-', this.state.htmlFileData.htmlText);
     console.log('handle uploading-', this.state.file);
     this.props.emit('askquestion', this.state.htmlFileData);
-    window.location = '/#/';
+    window.location = '/#/lecturer';
   }
 
   /**
@@ -35,15 +36,17 @@ class AskQuestion extends React.Component {
     const file = e.target.files[0];
     if (file != null) {
       const reader = new FileReader();
-
-
-      reader.onloadend = () => {
-        this.setState({
-          file: file,
-          htmlFileData: reader.result,
-        });
+      reader.onloadend = (evt) => {
+        if (evt.target.readyState == FileReader.DONE) {
+          const data = reader.result;
+          const splitData = data.split(/\r\n|\n/);
+          this.setState({
+            file: file,
+            htmlFileData: createElements(splitData),
+          });
+        }
       };
-
+      console.log(this.state.htmlFileData);
       reader.readAsText(file);
     }
   }
@@ -77,15 +80,15 @@ class AskQuestion extends React.Component {
 
 /**
  * Creates a markup.
- * @param {text} text The text.
+ * @param {data} data The text.
  * @return {number} The sum of the two numbers.
  */
-function createMarkup(text) {
-  return {__html: '<div class="card text-center"> '
-                  +'<div class="card-header">Question Preview</div> '
+function createMarkup(data) {
+  return {__html: '<div class="card"> '
+                  +'  <div class="card-header">Question Preview</div>'
                   +'<div class="card-body"> '
-                  +'<p class="card-text"> '+text+' </p>'
-                  +'<button class="btn btn-primary" type="submit">Post Question</button></div></div>'};
+                  +'<p class="card-text"> '+data.htmlText+' </p>'
+                  +'<button class="btn btn-primary" type="submit" formnovalidate>Post Question</button></div></div>'};
 };
 
 export default AskQuestion;

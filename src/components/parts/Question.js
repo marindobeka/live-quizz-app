@@ -18,6 +18,15 @@ class Question extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
   /**
+   *
+   */
+  componentDidMount() {
+    console.log('-----component did mount Question--------');
+    console.log(this.props.questions);
+    console.log(this.props.questions[this.props.questions.length -1].question);
+    console.log('-----------------------------------------');
+  }
+  /**
    * Handle submit event.
    * @param {event} event The event.
    * @param {submittedData} submittedData The submitted data.
@@ -41,13 +50,10 @@ class Question extends React.Component {
         <Display if={this.props.questions.length>0}>
           <h4>Question - {this.props.questions.length}</h4>
           <AutoForm onSubmit={this.handleSubmit}>
-            <div dangerouslySetInnerHTML={{__html: this.props.questions[this.props.questions.length -1]}}>
+            <div dangerouslySetInnerHTML={{__html: this.props.questions[this.props.questions.length -1].question.htmlText}}>
             </div>
             <input className="btn btn-primary" type="submit" value="Submit answer"/>
           </AutoForm>
-          {/* {this.state.submittedData && <pre>
-            {JSON.stringify(this.state.submittedData, null, 2)}
-          </pre>} */}
         </Display>
       </div>
 

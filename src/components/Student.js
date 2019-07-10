@@ -10,6 +10,14 @@ import Question from './parts/Question';
  */
 class Student extends React.Component {
   /**
+   *
+   */
+  componentDidMount() {
+    console.log('-----component did mount student--------');
+    console.log(this.props);
+    console.log('-----------------------------------------');
+  }
+  /**
    * @return {html} Return html text.
    */
   render() {
