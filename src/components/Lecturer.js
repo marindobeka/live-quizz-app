@@ -20,9 +20,9 @@ class Lecturer extends React.Component {
    *
    */
   componentDidMount() {
-    console.log('-----component did mount lecturer--------');
-    console.log(this.props);
-    console.log('-----------------------------------------');
+    // console.log('-----component did mount lecturer--------');
+    // console.log(this.props);
+    // console.log('-----------------------------------------');
   }
   /**
   * @return {header} The header html.
@@ -44,7 +44,7 @@ class Lecturer extends React.Component {
               </ul>
               <div className="card-body">
                 <Link className='card-link' to="/postQuestion">Post question</Link>
-                <Link className='card-link' to="/questions">Get responses</Link>
+                <Link className='card-link' to="/statistics">Statistics</Link>
               </div>
             </div>
             <Display if={this.props.updateStudents.length>0}>

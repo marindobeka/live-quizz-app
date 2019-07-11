@@ -7,6 +7,7 @@ import Lecturer from '../components/Lecturer';
 import CreateSession from '../components/parts/CreateSession';
 import AskQuestion from '../components/AskQuestion';
 import Student from '../components/Student';
+import Statistics from '../components/Statistics';
 
 
 /**
@@ -32,6 +33,7 @@ class Routes extends React.Component {
           <Route path='/lecturer' component={() => <Lecturer {...this.props} />}/>
           <Route path='/student' component={() => <Student {...this.props} />}/>
           <Route path='/postQuestion' component={() => <AskQuestion {...this.props} />}/>
+          <Route path='/statistics' component={() => <Statistics {...this.props} />}/>
           {/* <Route component={NotFound} /> */}
         </Switch>
       </main>

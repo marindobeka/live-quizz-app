@@ -6,10 +6,14 @@
  * @return {data}
  */
 export function createElements(dataFile) {
-  if (dataFile.includes('<radios>')) {
+  if (dataFile.includes('<radios>'.toLowerCase())) {
     return createRadioElement(dataFile);
-  } else if (dataFile.includes('<checkboxes>')) {
+  } else if (dataFile.includes('<checkboxes>'.toLowerCase())) {
     return createCheckboxElements(dataFile);
+  } else if (dataFile.includes('textbox'.toLowerCase())) {
+    return createTextBoxElement(dataFile);
+  } else if (dataFile.includes('sourcecode'.toLowerCase())) {
+    return createTextBoxElement(dataFile);
   }
 }
 /**
@@ -39,6 +43,7 @@ function createRadioElement(dataFile) {
     question: question,
     answers: answers,
     htmlText: htmlText,
+    type: 'radio',
   };
   console.log(parsedElements);
   return parsedElements;
@@ -71,6 +76,31 @@ function createCheckboxElements(dataFile) {
     question: question,
     answers: answers,
     htmlText: htmlText,
+    type: 'checkbox',
+  };
+  console.log(parsedElements);
+  return parsedElements;
+};
+
+/**
+ * Create checkbox elements.
+ * @param {dataFile} dataFile The data.
+ * @return {data}
+ */
+function createTextBoxElement(dataFile) {
+  console.log(dataFile);
+  const question = dataFile[0].replace(/(^\s+|\s+$|["'])/g, '');
+  let htmlText = '<label><h4>'+question+'</h4></label>';
+  htmlText = htmlText.concat(
+      '<div class="form-group">'+
+      '<textarea class="form-control" id="FormControlTextarea1" rows="5"></textarea>'+
+    '</div>'
+  );
+  const parsedElements = {
+    question: question,
+    answers: null,
+    htmlText: htmlText,
+    type: 'textbox',
   };
   console.log(parsedElements);
   return parsedElements;

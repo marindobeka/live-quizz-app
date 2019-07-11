@@ -7,6 +7,7 @@ const secureCode = 1234;
 
 const rooms = [];
 const questions = [];
+const results = [];
 const students = new Map();
 app.use(express.static('./dist'));
 app.use(express.static('public'));
@@ -20,6 +21,19 @@ const server = app.listen(config.PORT, config.HOST, function() {
 const io = socket.listen(server);
 
 io.sockets.on('connection', function(socket) {
+  socket.once('disconnect', function() {
+    connections.splice(connections.indexOf(socket), 1);
+    let member = _.findWhere(audiences, {id: this.id});
+    if (member) {
+      audiences.splice(audiences.indexOf(member), 1);
+      io.sockets.emit('updateAudience', audiences);
+    } else if (this.id == speaker.id) {
+      const foundIndex = rooms.findIndex((x) => x.id == socket.id);
+      socket.to(rooms[foundIndex].code).emit('speakerLeft', room[foundIndex]);
+      rooms.splice(foundIndex, 1);
+    }
+    socket.disconnect();
+  });
   socket.on('join', function(payload) {
     // console.log(payload);
     const speaker = {
@@ -117,11 +131,6 @@ io.sockets.on('connection', function(socket) {
   });
   socket.on('askquestion', function(payload) {
     const obj = rooms.find((data) => data.id === socket.id);
-    const q = {
-      code: obj.code,
-      question: payload,
-    };
-    questions.push(q);
     if (students.has(obj.code)) {
       const a = students.get(obj.code);
       for (let i = 0; i < a.length; i++) {
@@ -130,38 +139,51 @@ io.sockets.on('connection', function(socket) {
       students.set(obj.code, a);
       io.to(obj.code).emit('updateStudents', a);
     }
+    const indexQ = questions.findIndex((x) => x.code == obj.code);
+    if (indexQ != -1) {
+      questions.splice(indexQ, 1);
+    }
+    let createAnswers = null;
+    if (payload.type && (payload.type === 'radio' || payload.type ==='checkbox')) {
+      createAnswers = payload.answers.reduce((acc, elem) => {
+        acc[elem] = 0;
+        return acc;
+      }, {});
+    }
+    const q = {
+      code: obj.code,
+      question: payload,
+      results: createAnswers,
+    };
+    questions.push(q);
     console.log('Socket ID askquestion:'+socket.id);
     console.log(rooms);
     console.log(obj);
+    console.log('Questions: ');
+    console.log(questions);
     io.to(obj.code).emit('askquestion', questions);
   });
   socket.on('sendAnswer', function(payLoad, memeber) {
+    console.log('------------SEND ANSWER----------------');
     console.log(payLoad);
     console.log(memeber);
     const values = students.get(memeber.sessionId);
     const foundIndex = values.findIndex((x) => x.id == socket.id);
+    const qIndex = questions.findIndex((x) => x.code == memeber.sessionId);
+    console.log(qIndex);
+    console.log(memeber.answer.length);
+    console.log(memeber.answer[0]);
+    for (let i = 0; i < memeber.answer.length; i++) {
+      console.log(memeber.answer[i]);
+      console.log(questions[qIndex]);
+      console.log(questions[qIndex].results[memeber.answer[i]]);
+      questions[qIndex].results[memeber.answer[i]]++;
+    }
+    console.log(questions);
     values[foundIndex] = memeber;
-    // values[foundIndex].answer = memeber;
-    // const member = _.findWhere(values, {id: this.id});
-    // values.splice(values.indexOf(member), 1, memeber);
     students.set(memeber.sessionId, values);
     io.to(memeber.sessionId).emit('updateStudents', values);
-    // _.set(_.find(values, {id: this.id}), 'answer', memeber.answer);
-    // let member = _.findWhere(audiences, {id: this.id});
-
-    // audiences.splice(audiences.indexOf(member), 1, memeber);
-    // _.set(_.find(audiences, {id: this.id}), 'answer', memeber.answer);
-    // var member1 = _.findWhere(audiences, {id : this.id});
-    // console.log('server member after:' + member1.id);
-    // console.log('server member after:' + member1.answer);
-
-    // var json = JSON.parse(payLoad.answer);
-    // console.log('answer: ' + Object.values(json));
-    // const obj = rooms.find((data) => data.code === member.room);
-    // io.to(speaker.code).emit('updateAudience', audiences);
-    // io.sockets.emit('updateAudience', audiences);
-    // console.log('server member:' + member.id);
-    // io.sockets.emit('results', questions);
+    io.to(memeber.sessionId).emit('updateQuestions', questions);
   });
 });
 
@@ -171,7 +193,7 @@ io.sockets.on('connection', function(socket) {
  * @return {number} The unique number;
  */
 function generate(length) {
-  const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let result='';
   for (let i = length; i > 0; --i) {
     result += chars[Math.round(Math.random() * (chars.length - 1))];

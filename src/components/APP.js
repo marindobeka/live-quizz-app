@@ -72,6 +72,9 @@ class APP extends React.Component {
     socket.on('askquestion', (questionsFromServer) => {
       this.setState({questions: questionsFromServer, answered: 'no'});
     });
+    socket.on('updateQuestions', (questionsFromServer) => {
+      this.setState({questions: questionsFromServer});
+    });
     socket.on('disconnect', () => this.setState({status: 'disconnected'}));
     socket.on('welcomeBack', (x) => {
       sessionStorage.Memeber = JSON.stringify(x);
