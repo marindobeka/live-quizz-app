@@ -46,8 +46,11 @@ class Student extends React.Component {
           </Display>
         </Display>
 
-        <Display if={this.props.status == 'disconnected'}>
+        <Display if={this.props.status == 'disconnected' && !this.props.Member.name}>
           <h2>Server stopped working. Will back soon...</h2>
+        </Display>
+        <Display if={this.props.status == 'disconnected' && this.props.Member.name}>
+          <JoinForm emit = {this.props.emit}/>
         </Display>
       </div>
     );

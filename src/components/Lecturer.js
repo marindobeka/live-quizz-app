@@ -3,6 +3,8 @@ import React from 'react';
 import Display from './parts/Display';
 import {Link} from 'react-router-dom';
 import Students from './parts/Students';
+import JoinForm from './parts/JoinForm';
+
 
 /**
 * @author Marindo Beka
@@ -50,6 +52,9 @@ class Lecturer extends React.Component {
             <Display if={this.props.updateStudents.length>0}>
               <Students updateStudents={this.props.updateStudents} />
             </Display>
+          </Display>
+          <Display if={!this.props.Member.name }>
+            <JoinForm emit = {this.props.emit}/>
           </Display>
         </Display>
         <Display if={this.props.status == 'disconnected'}>

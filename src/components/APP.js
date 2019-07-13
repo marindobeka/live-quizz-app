@@ -37,11 +37,12 @@ class APP extends React.Component {
       // eslint-disable-next-line max-len
       const member = (sessionStorage.Memeber) ? JSON.parse(sessionStorage.Memeber) : null;
       const mem = member;
+      console.log('Connecting Client');
       console.log(mem);
       if (member && member.type == 'student') {
-        this.emit('join', member);
+        this.emit('reloadStudent', member);
       } else if (member && member.type == 'speaker') {
-        this.emit('reloadSpeaker', {code: member.code});
+        this.emit('reloadSpeaker', member);
       }
       this.setState({status: 'connected'});
       console.log('client connected');
@@ -81,6 +82,37 @@ class APP extends React.Component {
       console.log('welcome');
       console.log(x);
       this.setState({Member: x});
+    });
+    socket.on('welcomeBackStudent', (x) => {
+      sessionStorage.Memeber = JSON.stringify(x);
+      console.log('welcome student');
+      console.log(x);
+      this.setState({Member: x});
+    });
+    socket.on('welcomeBackStudentWithQuestionAvailable', (newMember) => {
+      console.log('welcomeBackStudentWithQuestionAvailable');
+      sessionStorage.Memeber = JSON.stringify(newMember.s);
+      if (this.state.answered !== 'no') {
+        this.setState({Member: newMember.s});
+      } else {
+        this.setState({Member: newMember.s, questions: newMember.q, answered: 'no'});
+      }
+      console.log(this.state.Member);
+      console.log(sessionStorage.Memeber);
+      console.log(this.props);
+    });
+    socket.on('end', () => {
+      sessionStorage.removeItem('Memeber');
+      this.setState({
+        status: 'disconnected',
+        presentation_title: '',
+        Member: {},
+        speaker: '',
+        updateStudents: [],
+        questions: [],
+        answered: 'no',
+        selectedQuestion: 0,
+      });
     });
   }
 
