@@ -20,10 +20,8 @@ const io = socket.listen(server);
 
 io.sockets.on('connection', function(socket) {
   socket.once('disconnect', function() {
-    // connections.splice(connections.indexOf(socket), 1);
     const foundIndex = rooms.findIndex((x) => x.id == socket.id);
     if (foundIndex != -1 ) {
-      // io.sockets.in(rooms[foundIndex].code).emit('end', {speaker: '', questions: [], updateStudents: [], status: 'disconnected'});
       io.sockets.in(rooms[foundIndex].code).emit('end');
       students.delete(rooms[foundIndex].code);
       rooms.splice(foundIndex, 1);
@@ -46,7 +44,6 @@ io.sockets.on('connection', function(socket) {
   });
   socket.once('join', function(payload) {
     // console.log(payload);
-
     const speaker = {
       id: socket.id,
       name: payload.name,
