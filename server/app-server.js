@@ -7,20 +7,9 @@ const secureCode = 1234;
 
 const rooms = [];
 const questions = [];
-const results = [];
 const students = new Map();
 app.use(express.static('./dist'));
 app.use(express.static('public'));
-app.get('/disconnect', function(req, res) {
-  console.log('Disconnecting Room ' + req.session.room_id);
-  req.session.destroy(function(err) {
-    if (err) {
-      console.log('Error destroying room... ' + err);
-    } else {
-      res.redirect('/');
-    }
-  });
-});
 
 const server = app.listen(config.PORT, function() {
   console.log(`Server running is running at http://${config.HOST}:${config.PORT}`);
