@@ -30,7 +30,7 @@ class Statistics extends React.Component {
       if (index != -1 && (this.props.questions[index].question.type === 'radio' || this.props.questions[index].question.type === 'checkbox')) {
         const d = [];
         d.push(['Answers', 'Counts']);
-        console.log(Object.entries(this.props.questions[index].results));
+        // console.log(Object.entries(this.props.questions[index].results));
         Object.entries(this.props.questions[index].results).forEach((value)=>{
           d.push(value);
         });

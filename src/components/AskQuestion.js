@@ -21,8 +21,8 @@ class AskQuestion extends React.Component {
    */
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handle uploading-', this.state.htmlFileData.htmlText);
-    console.log('handle uploading-', this.state.file);
+    // console.log('handle uploading-', this.state.htmlFileData.htmlText);
+    // console.log('handle uploading-', this.state.file);
     this.props.emit('askquestion', this.state.htmlFileData);
     window.location = '/#/lecturer';
   }
