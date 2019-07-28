@@ -28,7 +28,7 @@ class Students extends React.Component {
         <table className = "table table-stripred">
           <thead>
             <tr>
-              <th>Audience Member</th>
+              <th>Student</th>
               <th>Answer</th>
             </tr>
           </thead>

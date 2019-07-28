@@ -37,9 +37,6 @@ class Statistics extends React.Component {
         this.setState({data: d, title: this.props.questions[index].question.question});
       }
     }
-    console.log('-----component did mount Statistics--------');
-    console.log(this.props);
-    console.log('-----------------------------------------');
   };
   /**
   * @return {header} The header html.
@@ -63,6 +60,9 @@ class Statistics extends React.Component {
                 },
                 legend: {position: 'none'},
               }}/>
+            <p>
+              <Link to="/lecturer">Back</Link>
+            </p>
           </Display>
           <Display if={this.props.Member && this.props.Member.type == 'speaker' && !this.state.data.length > 0}>
             <h3>No questions to visualize.</h3>

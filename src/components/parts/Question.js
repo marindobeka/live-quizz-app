@@ -21,10 +21,10 @@ class Question extends React.Component {
    *
    */
   componentDidMount() {
-    console.log('-----component did mount Question--------');
-    console.log(this.props.questions);
-    console.log(this.props.questions[this.props.questions.length -1].question);
-    console.log('-----------------------------------------');
+    // console.log('-----component did mount Question--------');
+    // console.log(this.props.questions);
+    // console.log(this.props.questions[this.props.questions.length -1].question);
+    // console.log('-----------------------------------------');
   }
   /**
    * Handle submit event.
@@ -33,9 +33,9 @@ class Question extends React.Component {
    */
   handleSubmit(event, submittedData) {
     event.preventDefault();
-    console.log(event);
-    console.log(submittedData);
-    console.log(JSON.stringify(submittedData, null, 2));
+    // console.log(event);
+    // console.log(submittedData);
+    // console.log(JSON.stringify(submittedData, null, 2));
     const response = JSON.stringify(submittedData, null, 2);
     this.setState({submittedData});
     this.props.emit('sendAnswer', {answer: response, questionNumber: this.props.questions.length});

@@ -46,7 +46,7 @@ class AskQuestion extends React.Component {
           });
         }
       };
-      console.log(this.state.htmlFileData);
+      // console.log(this.state.htmlFileData);
       reader.readAsText(file);
     }
   }
