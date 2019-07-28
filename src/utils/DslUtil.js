@@ -22,7 +22,7 @@ export function createElements(dataFile) {
  * @return {data}
  */
 function createRadioElement(dataFile) {
-  console.log(dataFile);
+  // console.log(dataFile);
   const question = dataFile[0].replace(/(^\s+|\s+$|["'])/g, '');
   const answers = [];
   let htmlText = '<label><h4>'+question+'</h4></label>';
@@ -30,7 +30,7 @@ function createRadioElement(dataFile) {
   for (let i = 1; i < dataFile.length; i ++) {
     const trimmed = dataFile[i].replace(/(^\s+|\s+$|["'])/g, '');
     if (trimmed !== '<radios>' && trimmed !== '</radios>' && trimmed !== ' ') {
-      console.log(trimmed);
+      // console.log(trimmed);
       htmlText = htmlText.concat(
           '<div class="form-check">'+
             '<input class="form-check-input" type="radio"  name="radioButton" id="radioButton'+i+'" value="' + trimmed + '" required/>'+
@@ -45,7 +45,7 @@ function createRadioElement(dataFile) {
     htmlText: htmlText,
     type: 'radio',
   };
-  console.log(parsedElements);
+  // console.log(parsedElements);
   return parsedElements;
 };
 
@@ -55,17 +55,17 @@ function createRadioElement(dataFile) {
  * @return {data}
  */
 function createCheckboxElements(dataFile) {
-  console.log(dataFile);
+  // console.log(dataFile);
   const question = dataFile[0].replace(/(^\s+|\s+$|["'])/g, '');
   const answers = [];
   let htmlText = '<label><h4>'+question+'</h4></label>';
   for (let i = 1; i < dataFile.length; i ++) {
     const trimmed = dataFile[i].replace(/(^\s+|\s+$|["'])/g, '');
     if (trimmed !== '<checkboxes>' && trimmed !== '</checkboxes>' && trimmed !== ' ') {
-      console.log(trimmed);
+      // console.log(trimmed);
       htmlText = htmlText.concat(
           '<div class="form-check">'+
-            '<input class="form-check-input" type="checkbox" id="checkBox'+i+'" value="' + trimmed + '" required/>'+
+            '<input class="form-check-input" type="checkbox" id="checkBox'+i+'" value="' + trimmed + '" />'+
             '<label class="form-check-label" for="checkBox'+i+'">'+trimmed+'</label>'+
           '</div>'
       );
@@ -78,7 +78,7 @@ function createCheckboxElements(dataFile) {
     htmlText: htmlText,
     type: 'checkbox',
   };
-  console.log(parsedElements);
+  // console.log(parsedElements);
   return parsedElements;
 };
 
@@ -88,7 +88,7 @@ function createCheckboxElements(dataFile) {
  * @return {data}
  */
 function createTextBoxElement(dataFile) {
-  console.log(dataFile);
+  // console.log(dataFile);
   const question = dataFile[0].replace(/(^\s+|\s+$|["'])/g, '');
   let htmlText = '<label><h4>'+question+'</h4></label>';
   htmlText = htmlText.concat(
@@ -102,6 +102,6 @@ function createTextBoxElement(dataFile) {
     htmlText: htmlText,
     type: 'textbox',
   };
-  console.log(parsedElements);
+  // console.log(parsedElements);
   return parsedElements;
 };
