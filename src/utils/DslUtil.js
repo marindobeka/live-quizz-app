@@ -10,9 +10,9 @@ export function createElements(dataFile) {
     return createRadioElement(dataFile);
   } else if (dataFile.includes('<checkboxes>'.toLowerCase())) {
     return createCheckboxElements(dataFile);
-  } else if (dataFile.includes('textbox'.toLowerCase())) {
+  } else if (dataFile.includes('<textbox/>'.toLowerCase())) {
     return createTextBoxElement(dataFile);
-  } else if (dataFile.includes('sourcecode'.toLowerCase())) {
+  } else if (dataFile.includes('<sourcecode/>'.toLowerCase())) {
     return createTextBoxElement(dataFile);
   }
 }

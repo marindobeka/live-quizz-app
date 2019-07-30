@@ -217,11 +217,13 @@ io.sockets.on('connection', function(socket) {
     // console.log(qIndex);
     // console.log(memeber.answer.length);
     // console.log(memeber.answer[0]);
-    for (let i = 0; i < memeber.answer.length; i++) {
-      // console.log(memeber.answer[i]);
-      // console.log(questions[qIndex]);
-      // console.log(questions[qIndex].results[memeber.answer[i]]);
-      questions[qIndex].results[memeber.answer[i]]++;
+    if (questions[qIndex].question.type != 'textbox') {
+      for (let i = 0; i < memeber.answer.length; i++) {
+        // console.log(memeber.answer[i]);
+        // console.log(questions[qIndex]);
+        // console.log(questions[qIndex].results[memeber.answer[i]]);
+        questions[qIndex].results[memeber.answer[i]]++;
+      }
     }
     // console.log(questions);
     values[foundIndex] = memeber;
