@@ -3,7 +3,6 @@ const express = require('express');
 const config = require('../config.js');
 const socket = require('socket.io');
 const app = express();
-const secureCode = 1234;
 
 const rooms = [];
 const questions = [];
@@ -12,7 +11,7 @@ app.use(express.static('./dist'));
 app.use(express.static('public'));
 
 const server = app.listen(config.PORT, function() {
-  console.log(`Server running is running at http://${config.HOST}:${config.PORT}`);
+  console.log(`Server running is running at http://localhost:${config.PORT}`);
 });
 
 
@@ -26,14 +25,14 @@ io.sockets.on('connection', function(socket) {
       students.delete(rooms[foundIndex].code);
       rooms.splice(foundIndex, 1);
     } else {
-      console.log(socket.id);
+      // console.log(socket.id);
       const key = [...students.entries()]
           .filter(({1: v}) => v.findIndex((x) => x.id === socket.id) != -1)
           .map(([k]) => k);
-      console.log(key);
+      // console.log(key);
       if (key && key.length > 1) {
         const values = students.get(key[0]);
-        console.log(values);
+        // console.log(values);
         const index = values.findIndex((x) => x.id == socket.id);
         values.splice(index, 1);
         students.set(key[0], values);
@@ -55,9 +54,9 @@ io.sockets.on('connection', function(socket) {
     // console.log('rooms before');
     // console.log(rooms);
     rooms.push(speaker);
-    console.log('rooms after');
-    console.log(rooms);
-    console.log(io.sockets.adapter);
+    // console.log('rooms after');
+    // console.log(rooms);
+    // console.log(io.sockets.adapter);
   });
   socket.on('joinStudent', function(payload) {
     // console.log('Payload');
@@ -80,7 +79,7 @@ io.sockets.on('connection', function(socket) {
       newArrayObject.push(student);
       students.set(payload.id, newArrayObject);
     }
-    console.log(students);
+    // console.log(students);
     const availableQuestions = questions.filter((data) => data.code === payload.id);
     if (!availableQuestions || !availableQuestions.length) {
       // console.log('joined');
@@ -94,8 +93,8 @@ io.sockets.on('connection', function(socket) {
     io.to(payload.id).emit('updateStudents', students.get(payload.id));
   });
   socket.on('reloadSpeaker', function(payLoad) {
-    console.log('RELOAD SPEAKER');
-    console.log(payLoad);
+    // console.log('RELOAD SPEAKER');
+    // console.log(payLoad);
     const foundIndex = rooms.findIndex((x) => x.code == payLoad.code);
     if (foundIndex != -1) {
       rooms[foundIndex].id = socket.id; // update the id of the old room.
@@ -110,8 +109,8 @@ io.sockets.on('connection', function(socket) {
     }
   });
   socket.on('reloadStudent', function(payLoad) {
-    console.log('RELOAD Student');
-    console.log(payLoad);
+    // console.log('RELOAD Student');
+    // console.log(payLoad);
     const values = students.get(payLoad.sessionId);
     if (values && values.length > 0) {
       const foundIndex = values.findIndex((x) => x.id == payLoad.id);
@@ -143,11 +142,11 @@ io.sockets.on('connection', function(socket) {
   });
   socket.on('validateSession', function(payload, callback) {
     const isRoomNameAvailable = rooms.find((o) => o.name === payload.name);
-    if (secureCode == payload.code && isRoomNameAvailable == undefined) {
+    if (config.MASTER_CODE == payload.code && isRoomNameAvailable == undefined) {
       callback({
         code: 'OK',
       });
-    } else if (secureCode != payload.code) {
+    } else if (config.MASTER_CODE != payload.code) {
       callback({
         code: 'SECURECODEERROR',
         msg: `Please enter the default secure code to create a room`,
@@ -218,11 +217,13 @@ io.sockets.on('connection', function(socket) {
     // console.log(qIndex);
     // console.log(memeber.answer.length);
     // console.log(memeber.answer[0]);
-    for (let i = 0; i < memeber.answer.length; i++) {
-      // console.log(memeber.answer[i]);
-      // console.log(questions[qIndex]);
-      // console.log(questions[qIndex].results[memeber.answer[i]]);
-      questions[qIndex].results[memeber.answer[i]]++;
+    if (questions[qIndex].question.type != 'textbox') {
+      for (let i = 0; i < memeber.answer.length; i++) {
+        // console.log(memeber.answer[i]);
+        // console.log(questions[qIndex]);
+        // console.log(questions[qIndex].results[memeber.answer[i]]);
+        questions[qIndex].results[memeber.answer[i]]++;
+      }
     }
     // console.log(questions);
     values[foundIndex] = memeber;

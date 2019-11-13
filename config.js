@@ -1,5 +1,5 @@
 module.exports = {
   PORT: 3000,
-  HOST: 'localhost',
+  MASTER_CODE: 1234,
 };
 

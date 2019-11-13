@@ -33,7 +33,7 @@ class CreateSession extends React.Component {
       code: secureCode,
     };
     socket.emit('validateSession', config, (res) => {
-      console.log(res);
+      // console.log(res);
       if (res.code === 'OK') {
         this.props.emit('join', {name: config.name, code: config.code});
         this.setState({roomName: config.name});
@@ -41,11 +41,11 @@ class CreateSession extends React.Component {
         this.props.history.push('/lecturer');
       } else {
         this.setState({error: res.msg});
-        console.log(res.msg);
+        // console.log(res.msg);
       }
     });
-    console.log(roomName);
-    console.log(secureCode);
+    // console.log(roomName);
+    // console.log(secureCode);
   };
   /**
   * @return {header} The header html.
@@ -63,12 +63,10 @@ class CreateSession extends React.Component {
               </button>
             </div>}
             <form action="Javascript:void(0)" onSubmit = {this.start}>
-              {/* <label>Room Name</label> */}
               <div className="input-group">
                 <input ref="room_name"
                   className="form-control"
                   placeholder = "Room Name" required />
-                {/* <label>Secure Code</label> */}
                 <input ref="secure_code"
                   className="form-control"
                   placeholder = "Secure Code"
