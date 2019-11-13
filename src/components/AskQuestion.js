@@ -67,7 +67,7 @@ class AskQuestion extends React.Component {
         <Display if={this.props.Member.name && this.props.Member.type == 'speaker'} >
           <form onSubmit={(e)=>this.handleSubmit(e)}>
             <div className="custom-file">
-              <input type="file" className="custom-file-input" id="customFile" onChange={(e)=>this.handleHtmlChange(e)}/>
+              <input type="file" accept = ".html" className="custom-file-input" id="customFile" onChange={(e)=>this.handleHtmlChange(e)}/>
               <label className="custom-file-label" htmlFor="customFile">Choose file</label>
             </div>
             {htmlData}
