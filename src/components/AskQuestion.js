@@ -34,6 +34,7 @@ class AskQuestion extends React.Component {
   handleHtmlChange(e) {
     e.preventDefault();
     const file = e.target.files[0];
+    const questionName = file.name.split('.').shift();
     if (file != null) {
       const reader = new FileReader();
       reader.onloadend = (evt) => {
@@ -41,7 +42,7 @@ class AskQuestion extends React.Component {
           const data = reader.result;
           this.setState({
             file: file,
-            htmlFileData: createElements(data),
+            htmlFileData: createElements(data, questionName),
           });
         }
       };
