@@ -9,6 +9,7 @@ class Header extends React.Component {
   render() {
     return <header className="banner">
       <div className="container">
+        {/* <-img src="img/kepler_logo_white.png"/--> */}
         <h1 className="white-text center-on-small-only">LectureQuizz</h1>
         <div className="row white-text">
           <div className="col">
@@ -19,6 +20,10 @@ class Header extends React.Component {
     </header>;
   }
 }
+
+// Header.PropTypes = {
+//   presentation_title: React.PropTypes.String,
+// };
 
 Header.deafaultProps = {
   status: 'disconnected',

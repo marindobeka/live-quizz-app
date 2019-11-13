@@ -30,13 +30,16 @@ class Statistics extends React.Component {
       if (index != -1 && (this.props.questions[index].question.type === 'radio' || this.props.questions[index].question.type === 'checkbox')) {
         const d = [];
         d.push(['Answers', 'Counts']);
-        // console.log(Object.entries(this.props.questions[index].results));
+        console.log(Object.entries(this.props.questions[index].results));
         Object.entries(this.props.questions[index].results).forEach((value)=>{
           d.push(value);
         });
         this.setState({data: d, title: this.props.questions[index].question.question});
       }
     }
+    console.log('-----component did mount Statistics--------');
+    console.log(this.props);
+    console.log('-----------------------------------------');
   };
   /**
   * @return {header} The header html.
@@ -60,9 +63,6 @@ class Statistics extends React.Component {
                 },
                 legend: {position: 'none'},
               }}/>
-            <p>
-              <Link to="/lecturer">Back</Link>
-            </p>
           </Display>
           <Display if={this.props.Member && this.props.Member.type == 'speaker' && !this.state.data.length > 0}>
             <h3>No questions to visualize.</h3>

@@ -10,21 +10,12 @@ class Students extends React.Component {
    * @return {key}
    */
   addMemberRow(member, i) {
-    if (member.answer != null) {
-      return (
-        <tr key={i}>
-          <td>{member.name}</td>
-          <td>{member.answer.join(', ')}</td>
-        </tr>
-      );
-    } else {
-      return (
-        <tr key={i}>
-          <td>{member.name}</td>
-          <td>{member.answer}</td>
-        </tr>
-      );
-    }
+    return (
+      <tr key={i}>
+        <td>{member.name}</td>
+        <td>{member.answer}</td>
+      </tr>
+    );
   }
 
   /**
@@ -37,7 +28,7 @@ class Students extends React.Component {
         <table className = "table table-stripred">
           <thead>
             <tr>
-              <th>Student</th>
+              <th>Audience Member</th>
               <th>Answer</th>
             </tr>
           </thead>

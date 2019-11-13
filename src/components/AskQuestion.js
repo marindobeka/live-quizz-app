@@ -21,8 +21,8 @@ class AskQuestion extends React.Component {
    */
   handleSubmit(e) {
     e.preventDefault();
-    // console.log('handle uploading-', this.state.htmlFileData.htmlText);
-    // console.log('handle uploading-', this.state.file);
+    console.log('handle uploading-', this.state.htmlFileData.htmlText);
+    console.log('handle uploading-', this.state.file);
     this.props.emit('askquestion', this.state.htmlFileData);
     window.location = '/#/lecturer';
   }
@@ -34,19 +34,19 @@ class AskQuestion extends React.Component {
   handleHtmlChange(e) {
     e.preventDefault();
     const file = e.target.files[0];
-    const questionName = file.name.split('.').shift();
     if (file != null) {
       const reader = new FileReader();
       reader.onloadend = (evt) => {
         if (evt.target.readyState == FileReader.DONE) {
           const data = reader.result;
+          const splitData = data.split(/\r\n|\n/);
           this.setState({
             file: file,
-            htmlFileData: createElements(data, questionName),
+            htmlFileData: createElements(splitData),
           });
         }
       };
-      // console.log(this.state.htmlFileData);
+      console.log(this.state.htmlFileData);
       reader.readAsText(file);
     }
   }
@@ -67,7 +67,7 @@ class AskQuestion extends React.Component {
         <Display if={this.props.Member.name && this.props.Member.type == 'speaker'} >
           <form onSubmit={(e)=>this.handleSubmit(e)}>
             <div className="custom-file">
-              <input type="file" accept = ".html" className="custom-file-input" id="customFile" onChange={(e)=>this.handleHtmlChange(e)}/>
+              <input type="file" className="custom-file-input" id="customFile" onChange={(e)=>this.handleHtmlChange(e)}/>
               <label className="custom-file-label" htmlFor="customFile">Choose file</label>
             </div>
             {htmlData}

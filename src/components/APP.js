@@ -36,37 +36,39 @@ class APP extends React.Component {
     socket.on('connect', () => {
       // eslint-disable-next-line max-len
       const member = (sessionStorage.Memeber) ? JSON.parse(sessionStorage.Memeber) : null;
-      // console.log('Connecting Client');
+      const mem = member;
+      console.log('Connecting Client');
+      console.log(mem);
       if (member && member.type == 'student') {
         this.emit('reloadStudent', member);
       } else if (member && member.type == 'speaker') {
         this.emit('reloadSpeaker', member);
       }
       this.setState({status: 'connected'});
-      // console.log('client connected');
+      console.log('client connected');
       this.setState({status: 'connected'});
     });
     socket.on('joined', (newMember) => {
-      // console.log('joined');
+      console.log('joined');
       sessionStorage.Memeber = JSON.stringify(newMember);
       this.setState({Member: newMember});
-      // console.log('Joined Client');
-      // console.log(this.state.Member);
-      // console.log(sessionStorage.Memeber);
-      // console.log(this.props);
+      console.log('Joined Client');
+      console.log(this.state.Member);
+      console.log(sessionStorage.Memeber);
+      console.log(this.props);
     });
     socket.on('joinedWithQuestionAvailable', (newMember) => {
-      // console.log('joinedWithQuestionAvailable');
+      console.log('joinedWithQuestionAvailable');
       sessionStorage.Memeber = JSON.stringify(newMember.s);
       this.setState({Member: newMember.s, questions: newMember.q, answered: 'no'});
-      // console.log('Joined Client');
-      // console.log(this.state.Member);
-      // console.log(sessionStorage.Memeber);
-      // console.log(this.props);
+      console.log('Joined Client');
+      console.log(this.state.Member);
+      console.log(sessionStorage.Memeber);
+      console.log(this.props);
     });
     socket.on('updateStudents', (students) => {
       this.setState({updateStudents: students});
-      // console.log(students);
+      console.log(students);
     });
     socket.on('askquestion', (questionsFromServer) => {
       this.setState({questions: questionsFromServer, answered: 'no'});
@@ -77,27 +79,27 @@ class APP extends React.Component {
     socket.on('disconnect', () => this.setState({status: 'disconnected'}));
     socket.on('welcomeBack', (x) => {
       sessionStorage.Memeber = JSON.stringify(x);
-      // console.log('welcome');
-      // console.log(x);
+      console.log('welcome');
+      console.log(x);
       this.setState({Member: x});
     });
     socket.on('welcomeBackStudent', (x) => {
       sessionStorage.Memeber = JSON.stringify(x);
-      // console.log('welcome student');
-      // console.log(x);
+      console.log('welcome student');
+      console.log(x);
       this.setState({Member: x});
     });
     socket.on('welcomeBackStudentWithQuestionAvailable', (newMember) => {
-      // console.log('welcomeBackStudentWithQuestionAvailable');
+      console.log('welcomeBackStudentWithQuestionAvailable');
       sessionStorage.Memeber = JSON.stringify(newMember.s);
       if (this.state.answered !== 'no') {
         this.setState({Member: newMember.s});
       } else {
         this.setState({Member: newMember.s, questions: newMember.q, answered: 'no'});
       }
-      // console.log(this.state.Member);
-      // console.log(sessionStorage.Memeber);
-      // console.log(this.props);
+      console.log(this.state.Member);
+      console.log(sessionStorage.Memeber);
+      console.log(this.props);
     });
     socket.on('end', () => {
       sessionStorage.removeItem('Memeber');
@@ -124,21 +126,21 @@ class APP extends React.Component {
     } else if (eventName == 'sendAnswer') {
       // const name = 'question ' + payLoad.questionNumber;
       const json = JSON.parse(payload.answer);
-      // console.log('Parsed json sendAnswer');
-      // console.log(json);
+      console.log('Parsed json sendAnswer');
+      console.log(json);
       const memeber = (sessionStorage.Memeber) ? JSON.parse(sessionStorage.Memeber) : null;
-      // console.log('session meember send answer');
-      // console.log(memeber);
+      console.log('session meember send answer');
+      console.log(memeber);
       if (memeber && memeber.type == 'student') {
-        // console.log('Member found send answer');
+        console.log('Member found send answer');
         memeber.answer = Object.values(json);
         this.setState({Member: memeber});
-        // console.log(this.state.Member);
-        // console.log('answer client: ' + Object.values(json));
+        console.log(this.state.Member);
+        console.log('answer client: ' + Object.values(json));
         this.setState({answered: 'yes'});
       }
-      // console.log('Emit Eventname: '+eventName);
-      // console.log(payload);
+      console.log('Emit Eventname: '+eventName);
+      console.log(payload);
       socket.emit(eventName, payload, memeber);
     } else {
       socket.emit(eventName, payload);

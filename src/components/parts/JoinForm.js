@@ -37,8 +37,10 @@ class JoinForm extends React.Component {
         this.props.history.push('/student');
       } else {
         this.setState({error: res.msg});
+        console.log(res.msg);
       }
     });
+    console.log(sessionId);
   };
   /**
   * @return {header} The header html.
@@ -63,20 +65,20 @@ class JoinForm extends React.Component {
             <div className="card-body">
               <h5 className="card-title">Join Session</h5>
               <p className="card-text">To participate in the event,
-                please enter the session code here.</p>
+                please enter the session ID here.</p>
               <form action="Javascript:void(0)" onSubmit = {this.submit}>
-                {this.state.error && <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                  {this.state.error}
-                  <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>}
                 <div className="form-inline">
-                  <div className="form-group mx-sm-3 mb-2">
-                    <label htmlFor="sessionId" className="sr-only">Session Code</label>
-                    <input ref="session_id" className="form-control" id="sessionId" placeholder="Session Code" required/>
+                  {this.state.error && <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    {this.state.error}
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>}
+                  <div className="form-group mx-sm-1">
+                    <input className="form-control" ref="session_id"
+                      id="sessionId" placeholder="Session Id" required/>
                   </div>
-                  <button type="submit" className="btn btn-primary mb-2">Join</button>
+                  <button type="submit" className="btn btn-primary">Join</button>
                 </div>
               </form>
             </div>
