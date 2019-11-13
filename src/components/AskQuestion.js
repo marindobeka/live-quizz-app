@@ -39,10 +39,9 @@ class AskQuestion extends React.Component {
       reader.onloadend = (evt) => {
         if (evt.target.readyState == FileReader.DONE) {
           const data = reader.result;
-          const splitData = data.split(/\r\n|\n/);
           this.setState({
             file: file,
-            htmlFileData: createElements(splitData),
+            htmlFileData: createElements(data),
           });
         }
       };
