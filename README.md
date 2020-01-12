@@ -17,5 +17,5 @@ In order to install the tool, the following needs to be installed:
 
 ### Configuration File
 On the project folder a configuration file exists (config.js) where the following can be configured:
-* PORT: the host port where the server will be running.
-* MASTER_CODE: the master code needed to create a session/room.
+* PORT: the host port where the server will be running. (DEFAULT=3000)
+* MASTER_CODE: the master code needed to create a session/room. (DEFAULT=1234)
