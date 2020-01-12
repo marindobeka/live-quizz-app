@@ -1,7 +1,6 @@
 # LectureQuizz
 This project is a web-based tool where a lecturer can spontaneously ask
-questions during a class and students can provide answers interactively via a laptop, tablet or a smart-
-phone. The answers provided by the students can then be evaluated and if possible, also visualized. For
+questions during a class and students can provide answers interactively via a laptop, tablet or smartphone. The answers provided by the students can then be evaluated and if possible, also visualized. For
 the time being the application supports the following question types and are subject to a specified DSL:
 1. Yes/No questions: A question which can be answers with yes(true) or no(false).
 2. Multiple-choice: A question with more than one answer to select.
